@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load phone %}
+
+{% block content %}
+<main role="main">
+    <div class="container py-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            {% for item in parents %}
+            <li class="breadcrumb-item"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+            {% endfor %}
+        </ol>
+        <h1 class="mt-0 mb-4">Контакты</h1>
+
+        <address>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <span class="d-block mb-2 smaller">Адрес</span>
+                        {% for item in addresses %}
+                        <span class="d-block h6 mb-2">{{ item.value }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <span class="d-block mb-2 smaller">Телефоны</span>
+                        {% for item in phones %}
+                        <a href="tel:+{{ item.value|only_digits }}" title="" class="d-block h6 mb-2 text-dark">{{ item.value }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <span class="d-block mb-2 smaller">Электронная почта</span>
+                        {% for item in emails %}
+                        <a href="mailto:{{ item.value }}" title="" class="d-block h6 mb-2 text-dark">{{ item.value }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <span class="d-block mb-2 smaller">Режим работы</span>
+                        {% for item in schedule %}
+                        <span class="d-block h6 mb-2"><span class="font-weight-light mr-2">{{ item.days }}:</span>{{ item.time }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <a href="#" title="" class="btn btn-primary btn-sm mb-3" role="button" data-toggle="modal" data-target="#ContactModal"><i class="fas fa-paper-plane mr-2"></i>Написать менеджеру</a>
+                        <div class="clearfix"></div>
+                        <a href="#" title="" class="btn btn-outline-dark btn-sm mr-3" role="button" data-toggle="modal" data-target="#CallBackModal"><i class="fas fa-phone mr-2"></i>Заказать звонок</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-5">
+                        <a href="https://api.whatsapp.com/send?phone=+{{ whatsapp.value|only_digits }}" target="_blank" title="" class="btn btn-success btn-sm mb-0 mb-lg-3" role="button"><i class="fab fa-whatsapp fa-lg mr-2"></i>Написать в WhatsApp</a>
+
+                        <div class="socials">
+                            {% for item in socials %}
+                            <a class="pr-2 text-dark border-0" href="{{ item.link }}" target="_blank"><i class="fab fa-{{ item.short_name }}"></i></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </address>
+
+        <div class="mb-4 mb-lg-5">
+            {{ map_code.value|safe }}
+        </div>
+    </div>
+</main>
+{% endblock %}

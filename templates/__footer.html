@@ -1,0 +1,56 @@
+{% load static %}
+{% load phone %}
+
+<footer class="footer py-5 bg-dark">
+    <div class="container py-4 py-md-5">
+        <div class="row border-bottom border-secondary align-items-center mb-4 pb-4">
+            <div class="col-lg-3">
+                <a href="tel:+{{ index.phone1|only_digits }}" title="" class="d-block font-500 text-primary mb-2">{{ index.phone1 }}</a>
+                <a href="tel:+{{ index.phone2|only_digits }}" title="" class="d-block font-500 text-primary mb-2">{{ index.phone2 }}</a>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="text-right d-flex align-items-center pt-2 pt-lg-0">
+                    <div class="socials mr-4">
+                        {% for item in socials %}
+                        <a class="pr-2 text-white border-0" href="{{ item.link }}" target="_blank"><i class="fab fa-{{ item.short_name }}"></i></a>
+                        {% endfor %}
+                    </div>
+                    <a href="https://api.whatsapp.com/send?phone=+{{ whatsapp.value|only_digits }}" target="_blank" title="" class="btn btn-success btn-sm" role="button"><i class="fab fa-whatsapp fa-lg mr-2"></i>Написать в WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row border-bottom border-secondary align-items-center mb-4 pb-3 pt-2">
+            <div class="col-lg-3">
+                <a href="#" title="" role="button" data-toggle="modal" data-target="#CallBackModal" class="btn btn-outline-primary mb-3">Заказать звонок</a>
+            </div>
+
+            <div class="col-lg-9">
+                {% for item in footer_menu %}
+                    <a href="{{ item.get_absolute_url }}" title="" class="d-inline-block text-light mr-4 mb-3">{{ item.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row pt-2">
+            <div class="col-lg-6">
+                <div class="footer-devlogo-conatiner mb-3 mb-lg-0">
+                    <div class="d-inline-block">
+                        <div class="position-relative d-flex align-items-center devlogo">
+                            <img src="{% static 'images/devlogo.svg' %}" alt="Webline Masters">
+                            <div class="ml-2 d-flex align-items-start flex-column">
+                                <span class="text-light">Webline Masters</span>
+                                <a href="http://wlms.info" target="_blank" class="stretched-link text-muted" title="Webline Masters">создание и продвижение сайтов</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <span class="d-block smaller text-light text-lg-right">© 2020 «ПроМСК»</span>
+            </div>
+        </div>
+    </div>
+</footer>

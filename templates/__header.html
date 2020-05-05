@@ -1,0 +1,157 @@
+{% load static %}
+{% load phone %}
+
+<div class="position-relative bg-dark pt-4 pb-2 top-bar">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-2">
+                <div class="d-none d-lg-block">
+                    <a href="{% url 'index' %}" title="">
+                        <img src="{% static 'images/logo.png' %}" title="" height="100px">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+                <div class="d-lg-block d-flex justify-content-between align-items-center">
+                    <a href="#" title="" class="btn btn-outline-light btn-sm text-lowercase d-lg-none" role="button" data-toggle="modal" data-target="#CallBackModal">Заказать звонок</a>
+                    <div class="clearfix d-none d-lg-block"></div>
+                    <a href="tel:+{{ index.phone1|only_digits }}" title="" class="d-inline-block font-500 mb-0 mb-lg-2 text-white top-bar-phone">{{ index.phone1 }}</a>
+                    <div class="clearfix d-none d-lg-block"></div>
+                    <a href="tel:+{{ index.phone2|only_digits }}" title="" class="font-500 text-white top-bar-phone d-none d-md-inline-block">{{ index.phone2 }}</a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="text-right d-lg-block d-flex justify-content-between align-items-center">
+                    <a href="https://api.whatsapp.com/send?phone=+{{ whatsapp.value|only_digits }}" target="_blank" title="" class="btn btn-success btn-sm mb-0 mb-lg-3" role="button"><i class="fab fa-whatsapp fa-lg mr-2"></i>Написать в WhatsApp</a>
+                    <div class="clearfix d-none d-lg-block"></div>
+                    <div class="socials">
+                        {% for item in socials %}
+                        <a class="pr-2 text-white border-0" href="{{ item.link }}" target="_blank"><i class="fab fa-{{ item.short_name }}"></i></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-lg-0 px-3 position-relative">
+        <div class="d-lg-none">
+            <a href="{% url 'index' %}" title="">
+                <img src="{% static 'images/logo-sm.png' %}" title="" height="32px" class="mr-2">
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i><i class="fas fa-times"></i></span>
+        </button>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% for item in pages %}
+                    {% if not item.parent %}
+                        {% if item.action == 'products' %}
+                        <li class="nav-item dropdown dropdown-big">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ item.title }}<i class="fas fa-angle-down fa-xs ml-2"></i>
+                            </a>
+                            <div class="dropdown-menu w-100 py-4 px-2">
+                                <div class="row">
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories1 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories2 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories3 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% elif item.action == 'dropdown' %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ item.title }}<i class="fas fa-angle-down fa-xs ml-2"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                {% for sub_page in item.sub_pages %}
+                                <a class="dropdown-item" href="{{ sub_page.get_absolute_url }}">{{ sub_page.title }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            <a href="#" title="" class="btn btn-outline-light btn-sm text-lowercase mr-3" role="button" data-toggle="modal" data-target="#CallBackModal">Заказать звонок</a>
+        </div>
+
+        <div class="d-lg-none offcanvas-collapse navbar-expand-lg">
+            <div class="container px-3">
+                <ul class="navbar-nav">
+                {% for item in pages %}
+                    {% if not item.parent %}
+                        {% if item.action == 'products' %}
+                        <li class="nav-item dropdown dropdown-big">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ item.title }}<i class="fas fa-angle-down fa-xs ml-2"></i>
+                            </a>
+                            <div class="dropdown-menu w-100 py-4 px-2">
+                                <div class="row">
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories1 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories2 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        {% for item in categories3 %}
+                                        <a class="dropdown-item {% if not item.parent %}h6 font-500 mb-1{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% elif item.action == 'dropdown' %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ item.title }}<i class="fas fa-angle-down fa-xs ml-2"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                {% for sub_page in item.sub_pages %}
+                                <a class="dropdown-item" href="{{ sub_page.get_absolute_url }}">{{ sub_page.title }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+</nav>

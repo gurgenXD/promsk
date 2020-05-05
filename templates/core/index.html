@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load phone %}
+
+{% block content %}
+<main role="main">
+    <div class="jumbotron d-flex align-items-center">
+        <div class="container">
+            <h2 class="mb-4 font-900">{{ index.title }}</h2>
+            <p class="mb-5 text-light">{{ index.title_text|striptags }}</p>
+            <a href="{% url 'categories' %}" title="" class="btn btn-primary btn-lg text-lowercase">Каталог продукции</a>
+        </div>
+    </div>
+
+    <section class="py-5 bg-photo" style="background-image: url({% static 'images/main-cat-bg.jpg' %})">
+        <div class="container py-0 py-lg-4">
+            <div class="row">
+                {% for item in index_categories %}
+                <div class="col-sm-4">
+                    <div class="catalogue-category-card mb-4" style="background-image: url({{ item.image_small.url }}">
+                        <div class="catalogue-category-card-container d-flex align-items-end px-4">
+                            <a href="{{ item.category.get_absolute_url }}" title="" class="stretched-link mb-4">{{ item.category.title }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center pt-4">
+                <a href="{% url 'categories' %}" title="" class="btn btn-outline-dark btn-sm">все продукты и услуги</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container py-0 py-lg-4">
+            <div class="row">
+                {% for item in index.procs.all %}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="featute-item text-center px-4 mb-5">
+                        <img src="{{ item.image.url }}" alt="" class="mb-3">
+                        <h3 class="h6">{{ item.title }}</h3>
+                        <p class="m-0 small text-muted">{{ item.text|striptags }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" style="background-image: url({% static 'images/cta-bg.jpg' %})">
+        <div class="container py-0 py-lg-4 px-0 px-sm-3">
+            <div id="CallBackIndex" class="cta position-relative rounded-lg p-4 p-sm-5 my-0 my-sm-5">
+                <h2 class="text-center">Вы уже знаете, что хотите?</h2>
+                <p class="lead text-center mb-5">Оставьте свой телефон и мы сразу же перезвоним.</p>
+
+                <form class="needs-validation" novalidate method="POST" action="{% url 'callback' %}">
+                    {% csrf_token %}
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-lg-4">
+                            <div class="form-label-group smaller mb-4">
+                                <input type="text" name="name" class="form-control bg-dark text-white" placeholder="Ваше имя" required>
+                                <label class="bg-dark rounded text-white">Ваше имя</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-label-group smaller mb-4">
+                                <input type="text" name="phone" class="form-control bg-dark phone-input text-white" placeholder="Телефон" required>
+                                <label class="bg-dark rounded text-white">Телефон</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <button class="btn btn-primary w-100" type="submit">заказать звонок</button>
+                        </div>
+                    </div>
+
+                    <p class="m-0 smaller text-center">Нажимая кнопку <span class="text-nowrap">"заказать звонок"</span>, вы даёте согласие на <a href="/pages/personal-data/" target="_blank" class="text-primary">обработку персональных данных</a></p>
+                </form>
+
+                
+                <div class="alert alert-danger d-none alert-dismissible fade smaller show bg-primary" role="alert">
+                <strong>Произошла ошибка! </strong>Обновите страницу и попробуйте ещё раз.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+               
+
+                                        
+                <div class="form-success bg-primary d-none justify-content-center align-items-center">
+                <div class="text-center">
+                <i class="far fa-check-circle fa-5x text-dark mb-4"></i>
+                <h3 class="h5 mb-1 mt-0">Спасибо за ваше сообщение!</h3>
+                <p class="smaller m-0">Мы получили его, и скоро с вами свяжемся.</p>
+                </div>
+                </div>
+               
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container py-0 py-lg-4">
+            <h2 class="text-center mb-5">Популярные товары</h2>
+            <div class="row mx-lg-n4">
+                {% for item in index_products %}
+                <div class="col-lg-3 col-sm-6 px-lg-4">
+                    <div class="card product-card overflow-hidden mb-5">
+                        <div class="card-img" style="background-image: url({{ item.product.get_main_image.image_medium.url }})"></div>
+                        <div class="card-body">
+                            <a href="{{ item.product.get_absolute_url }}" title="" class="stretched-link d-block mb-5 text-dark">{{ item.product.title }}</a>
+                            <div class="product-card-price">
+                                {% if item.product.price %}
+                                <span class="number font-weight-bold">{{ item.product.price }}</span><i class="fas fa-ruble-sign fa-xs ml-2"></i>
+                                {% else %}
+                                <span class="number font-weight-bold">Под заказ</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center pb-5">
+                <a href="{% url 'categories' %}" title="" class="btn btn-outline-dark btn-sm">все товары</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-5">
+        <div class="container py-0 py-lg-4">
+            <div class="row">
+                <div class="col-lg-7">
+                    <article class="mb-5">
+                        <h1 class="mt-0 mb-4">Немного о нас</h1>
+                        {{ index.about|safe }}
+                    </article>
+                </div>
+
+                <div class="col-lg-4 ml-auto">
+                    <div class="bg-light rounded-lg p-4 mb-4 mb-lg-0">
+                        <h5 class="mb-4">Что у нас нового</h5>
+
+                        {% for item in index_news %}
+                        <div class="news-item position-relative pb-3 mb-3">
+                            <a href="{{ item.get_absolute_url }}" title="" class="d-block stretched-link text-dark mb-2">{{ item.title }}</a>
+                            <span class="d-block">{{ item.created|date:"j E Y" }}</span>
+                        </div>
+                        {% endfor %}
+
+                        <div class="text-center pt-3">
+                            <a href="{% url 'news' %}" title="" class="btn btn-outline-dark btn-sm">все новости</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light py-5">
+        <div class="container py-0 py-lg-4">
+            <h2 class="text-center mb-5">Контакты</h2>
+            <address>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <span class="d-block mb-2 smaller">Адрес</span>
+                            {% for item in addresses %}
+                            <span class="d-block h6 mb-2">{{ item.value }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <span class="d-block mb-2 smaller">Телефоны</span>
+                            {% for item in phones %}
+                            <a href="tel:+{{ item.value|only_digits }}" title="" class="d-block h6 mb-2 text-dark">{{ item.value }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <span class="d-block mb-2 smaller">Электронная почта</span>
+                            {% for item in emails %}
+                            <a href="mailto:{{ item.value }}" title="" class="d-block h6 mb-2 text-dark">{{ item.value }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <span class="d-block mb-2 smaller">Режим работы</span>
+                            {% for item in schedule %}
+                            <span class="d-block h6 mb-2"><span class="font-weight-light mr-2">{{ item.days }}:</span>{{ item.time }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <a href="#" title="" class="btn btn-primary btn-sm mb-3" role="button" data-toggle="modal" data-target="#ContactModal"><i class="fas fa-paper-plane mr-2"></i>Написать менеджеру</a>
+                            <div class="clearfix"></div>
+                            <a href="#" title="" class="btn btn-outline-dark btn-sm mr-3" role="button" data-toggle="modal" data-target="#CallBackModal"><i class="fas fa-phone mr-2"></i>Заказать звонок</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-5">
+                            <a href="https://api.whatsapp.com/send?phone=+79094702111" target="_blank" title="" class="btn btn-success btn-sm mb-0 mb-lg-3" role="button"><i class="fab fa-whatsapp fa-lg mr-2"></i>Написать в WhatsApp</a>
+
+                            <div class="socials">
+                                {% for item in socials %}
+                                <a class="pr-2 text-dark border-0" href="{{ item.link }}" target="_blank"><i class="fab fa-{{ item.short_name }}"></i></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </address>
+
+            <div class="mb-3">
+                {{ map_code.value|safe }}
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

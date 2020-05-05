@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main role="main">
+    <div class="container py-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            {% for item in parents %}
+            <li class="breadcrumb-item"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+            {% endfor %}
+        </ol>
+        <h1 class="mt-0 mb-4">Новости</h1>
+
+        <div class="row">
+            {% for item in news %}
+            <div class="col-lg-3 col-sm-6">
+                <div class="news-item news-item-big bg-light position-relative p-4 mb-4">
+                    <a href="{{ item.get_absolute_url }}" title="" class="d-block stretched-link text-dark mb-4">{{ item.title }}</a>
+                    <span class="d-block">{{ item.created|date:"j E Y" }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

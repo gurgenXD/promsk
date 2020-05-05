@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{ product.seo_title }}</title>
+<meta name="description" content="{{ product.seo_desc }}">
+<meta name="keywords" content="{{ product.seo_kwrds }}">
+{% endblock %}
+
+{% block content %}
+<main role="main">
+    <div class="container py-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'categories' %}">Каталог</a></li>
+            {% for item in parents %}
+            <li class="breadcrumb-item"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+            {% endfor %}
+            <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li>
+        </ol>
+
+        <div class="row pt-2">
+            <div class="col-lg-6">
+                <div id="Carousel" class="carousel slide pruduct-carousel" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="photo-swipe" itemscope itemtype="http://schema.org/ImageGallery">
+                            {% for item in product.images.all %}
+                            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="carousel-item{% if item == product.get_main_image %} active{% endif %}" data-interval="10000">
+                                <a href="{{ item.image_xxl.url }}" itemprop="contentUrl" data-size="1522x1522">
+                                    <img src="{{ item.image_big.url }}" itemprop="thumbnail" alt="...">
+                                </a>
+                            </figure>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <ol class="carousel-indicators flex-wrap">
+                        {% for nmb, item in slider_elems %}
+                        <li data-target="#Carousel" data-slide-to="{{ nmb }}" {% if item == product.get_main_image %}class="active"{% endif %} style="background-image: url({{ item.image_small.url }})"></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h1 class="mb-2 h2">{{ product.title }}</h1>
+                {% if product.price %}
+                <span class="h3 text-primary d-block mb-4 mb-md-5"><span class="number">{{ product.price }}</span><i class="fas fa-ruble-sign fa-xs ml-2"></i></span>
+                {% else %}
+                <span class="h3 text-primary d-block mb-4 mb-md-5">под заказ</span>
+                {% endif %}
+
+                <a href="#" role="button" data-toggle="modal" data-target="#OrderModal" class="btn btn-primary btn-lg text-lowercase mb-4 mb-md-5"><i class="fas fa-shopping-basket mr-3"></i>Заказать</a>
+
+                <div id="CallBackIndex" class="cta position-relative p-4 bg-light">
+                    <h2 class="h4 mb-2">Это не то, что Вы искали?</h2>
+                    <p class="mb-4">Мы выполним для Вас индивидуальный заказ</p>
+
+                    <form class="needs-validation" novalidate method="POST" action="{% url 'callback' %}">
+                        {% csrf_token %}
+                        <div class="row justify-content-start mb-4">
+                            <div class="col-lg-6">
+                                <div class="form-label-group smaller mb-4">
+                                    <input type="text" name="name" class="form-control bg-light" placeholder="Ваше имя" required>
+                                    <label class="bg-light">Ваше имя</label>
+
+                                    <div class="invalid-feedback">
+                                        Это обязательное поле
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-label-group smaller mb-4">
+                                    <input type="text" name="phone" class="form-control bg-light phone-input" placeholder="Телефон" required>
+                                    <label class="bg-light">Телефон</label>
+
+                                    <div class="invalid-feedback">
+                                        Это обязательное поле
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 ml-">
+                                <button class="btn btn-outline-primary w-100" type="submit">заказать звонок</button>
+                            </div>
+                        </div>
+
+                        <p class="m-0 small text-muted">Нажимая кнопку <span class="text-nowrap">"заказать звонок"</span>, вы даёте согласие на <a href="/pages/personal-data/" target="_blank">обработку персональных данных</a></p>
+                    </form>
+
+                    
+                    <div class="alert alert-danger d-none alert-dismissible fade smaller show" role="alert">
+                    <strong>Произошла ошибка! </strong>Обновите страницу и попробуйте ещё раз.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                   
+
+                                        
+                    <div class="form-success bg-light d-none justify-content-center align-items-center">
+                    <div class="text-center">
+                    <i class="far fa-check-circle fa-5x text-primary mb-4"></i>
+                    <h3 class="h5 mb-1 mt-0">Спасибо за вашу заявку!</h3>
+                    <p class="smaller m-0">Мы получили её, и скоро с вами свяжемся.</p>
+                    </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs justify-content-center pt-4" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-1" data-toggle="tab" href="#tab-content-1" role="tab" aria-controls="tab-content-1" aria-selected="true">Характеристики</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2" role="tab" aria-controls="tab-content-2" aria-selected="false">Описание</a>
+            </li>
+
+        </ul>
+        <div class="tab-content pt-4 pt-md-5">
+            <div class="tab-pane fade show active" id="tab-content-1" role="tabpanel" aria-labelledby="home-tab">
+                <div class="col-lg-6 px-0 mx-auto text-center">
+                    <div class="d-inline-block text-left">
+                        {{ product.info|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-content-2" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="col-lg-6 px-0 mx-auto">
+                    {{ product.desc|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="py-5 bg-light">
+        <div class="container py-0 py-lg-4">
+            <h2 class="text-center mb-5">С этим товаром смотрят</h2>
+
+            <div class="row mx-lg-n4">
+                {% for item in similar_products %}
+                <div class="col-lg-3 col-sm-6 px-lg-4">
+                    <div class="card product-card overflow-hidden mb-5">
+                        <div class="card-img" style="background-image: url({{ item.product.get_main_image.image_medium.url }})"></div>
+                        <div class="card-body">
+                            <a href="{{ item.similar_product.get_absolute_url }}" title="" class="stretched-link d-block mb-5 text-dark">{{ item.product.title }}</a>
+                            <div class="product-card-price">
+                                {% if item.product.price %}
+                                <span class="number font-weight-bold">{{ item.product.price }}</span>
+                                <i class="fas fa-ruble-sign fa-xs ml-2"></i>
+                                {% else %}
+                                <span class="number font-weight-bold">под заказ</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="modal fade" id="OrderModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content overflow-hidden shadow">
+            <div class="modal-header">
+                <h5 class="modal-title m-0">Заказ продукции</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" novalidate method="POST" action="{% url 'order' %}">
+                    {% csrf_token %}
+                    <div class="form-label-group smaller mb-4">
+                        {{ order_form.name }}
+                        <label class="bg-white">Ваше имя</label>
+
+                        <div class="invalid-feedback">
+                            Это обязательное поле
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-label-group smaller mb-4">
+                                {{ order_form.email }}
+                                <label class="bg-white">Электронная почта</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-label-group smaller mb-4">
+                                {{ order_form.phone }}
+                                <label class="bg-white">Телефон</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-label-group textarea smaller mb-4">
+                        {{ order_form.text }}
+                        <label class="bg-white">Описание заказа</label>
+                    </div>
+
+                    <button class="btn btn-primary text-lowercase" data-product="{{ product.id }}" type="submit">Оформить заказ</button>
+                </form>
+
+                
+                <div class="alert alert-danger d-none alert-dismissible small fade show" role="alert">
+                <strong>Произошла ошибка! </strong>Обновите страницу и попробуйте ещё раз.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+               
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-muted small m-0">Нажимая кнопку "оформить заказ", вы даёте согласие на <a href="/pages/personal-data/" target="_blank">обработку персональных данных</a></p>
+            </div>
+
+            
+            <div class="modal-success bg-white d-none justify-content-center align-items-center">
+            <div class="text-center px-5 py-4">
+            <i class="far fa-check-circle fa-4x text-primary mb-4"></i>
+            <h3 class="h5 mb-2 mt-0">Спасибо за заказ!</h3>
+            <p class="smaller">Мы свяжемся с вами в ближайшее время.</p>
+            <button type="button" class="btn btn-primary text-lowercase" data-dismiss="modal" aria-label="Закрыть окно"><i class="fas fa-check fa-xs mr-2"></i>Понятно</button>
+            </div>
+            </div>
+           
+
+        </div>
+    </div>
+</div>
+{% endblock %}

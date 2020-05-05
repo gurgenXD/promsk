@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        {% include '__head.html' %}
+        {% block title %}
+        {% endblock %}
+    </head>
+    <body>
+        {% include '__header.html' %}
+
+        {% block content %}
+        {% endblock %}
+
+        <div class="text-center text-muted position-fixed scroll-to-top">
+            <i class="fas fa-angle-up fa-2x"></i>
+        </div>
+
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="pswp__bg"></div>
+            <div class="pswp__scroll-wrap">
+                <div class="pswp__container">
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                </div>
+
+                <div class="pswp__ui pswp__ui--hidden">
+                    <div class="pswp__top-bar">
+                        <div class="pswp__counter"></div>
+                        <button class="pswp__button pswp__button--close" title="Закрыть (Esc)"></button>
+                        <!--                        <button class="pswp__button pswp__button--share" title="Поделиться"></button>-->
+                        <!--                        <button class="pswp__button pswp__button--fs" title="Полный экран"></button>-->
+                        <!--                        <button class="pswp__button pswp__button--zoom" title="Увеличить/уменьшить"></button>-->
+                        <div class="pswp__preloader">
+                            <div class="pswp__preloader__icn">
+                                <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div> 
+                    </div>
+
+                    <button class="pswp__button pswp__button--arrow--left" title="Назад (стрелка влево)">
+                    </button>
+
+                    <button class="pswp__button pswp__button--arrow--right" title="Вперёд (стрелка вправо)">
+                    </button>
+
+                    <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="CallBackModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content overflow-hidden shadow">
+                    <div class="modal-header">
+                        <h5 class="modal-title m-0 font-weight-normal smaller">Оставьте телефон, и мы перезвоним в ближайшее время</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="needs-validation" novalidate action="{% url 'callback' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-label-group smaller mb-4">
+                                {{ callback_form.name }}
+                                <label class="bg-white rounded">Ваше имя</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+
+                            <div class="form-label-group smaller mb-4">
+                                {{ callback_form.phone }}
+                                <label class="bg-white rounded">Телефон</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary mx-auto d-block w-100" type="submit">заказать звонок</button>
+                        </form>
+
+                        
+                        <div class="alert alert-danger d-none alert-dismissible small fade show" role="alert">
+                        <strong>Произошла ошибка! </strong>Обновите страницу и попробуйте ещё раз.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                       
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <p class="text-muted small m-0">Нажимая кнопку "заказать звонок", вы даёте согласие на <a href="/pages/personal-data/" target="_blank">обработку персональных данных</a></p>
+                    </div>
+
+                    
+                    <div class="modal-success bg-white d-none justify-content-center align-items-center">
+                    <div class="text-center px-5 py-4">
+                    <i class="far fa-check-circle fa-4x text-primary mb-4"></i>
+                    <h3 class="h5 mb-2 mt-0">Спасибо за заявку!</h3>
+                    <p class="smaller">Мы перезвоним Вам в ближайшее время.</p>
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Закрыть окно"><i class="fas fa-check fa-xs mr-2"></i>Понятно</button>
+                    </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="ContactModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content overflow-hidden shadow">
+                    <div class="modal-header">
+                        <h6 class="modal-title m-0 font-weight-normal">Возникли вопросы, есть предложения или нужна консультация? Пишите нам.</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="needs-validation" novalidate action="{% url 'feedback' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-label-group smaller mb-4">
+                                        {{ feedback_form.name }}
+                                        <label class="bg-white rounded">Ваше имя</label>
+
+                                        <div class="invalid-feedback">
+                                            Это обязательное поле
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-label-group smaller mb-4">
+                                        {{ feedback_form.email_or_phone }}
+                                        <label class="bg-white rounded">Телефон или E-mail</label>
+
+                                        <div class="invalid-feedback">
+                                            Это обязательное поле
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-label-group textarea smaller mb-4">
+                                {{ feedback_form.text }}
+                                <label class="bg-white">Текст сообщения</label>
+
+                                <div class="invalid-feedback">
+                                    Это обязательное поле
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary d-block ml-auto text-lowercase" type="submit"><i class="fas fa-paper-plane fa-xs mr-2"></i>Отправить</button>
+                        </form>
+
+                        
+                        <div class="alert alert-danger d-none alert-dismissible small fade show" role="alert">
+                        <strong>Произошла ошибка! </strong>Обновите страницу и попробуйте ещё раз.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                       
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <p class="text-muted small m-0">Нажимая кнопку "<i class="fas fa-paper-plane fa-xs mr-1"></i>отправить", вы даёте согласие на <a href="/pages/personal-data/" target="_blank">обработку персональных данных</a></p>
+                    </div>
+
+                    
+                    <div class="modal-success bg-white d-none justify-content-center align-items-center">
+                    <div class="text-center px-5 py-4">
+                    <i class="far fa-check-circle fa-4x text-primary mb-4"></i>
+                    <h3 class="h5 mb-2 mt-0">Спасибо за Ваше сообщение!</h3>
+                    <p class="smaller">Мы свяжимся с Вами в ближайшее время.</p>
+                    <button type="button" class="btn btn-primary btn-sm text-lowercase" data-dismiss="modal" aria-label="Закрыть окно"><i class="fas fa-check fa-xs mr-2"></i>Понятно</button>
+                    </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+        </div>
+
+        {% include '__footer.html' %}
+
+        {% include '__scripts.html' %}
+    </body>
+</html>
