@@ -23,6 +23,8 @@ def context_info(request):
     socials = Social.objects.all()
     whatsapp = WhatsApp.objects.first()
 
+    seo_titles = TitleTag.objects.filter(url=request.path).first()
+
     context = {
         'pages': pages,
         'footer_menu': footer_menu,
@@ -34,5 +36,6 @@ def context_info(request):
         'index': index,
         'socials': socials,
         'whatsapp': whatsapp,
+        'seo_titles': seo_titles,
     }
     return context
