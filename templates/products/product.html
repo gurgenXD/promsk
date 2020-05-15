@@ -115,12 +115,14 @@
             <li class="nav-item">
                 <a class="nav-link active" id="tab-1" data-toggle="tab" href="#tab-content-1" role="tab" aria-controls="tab-content-1" aria-selected="true">Характеристики</a>
             </li>
+            {% if product.info %}
             <li class="nav-item">
                 <a class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2" role="tab" aria-controls="tab-content-2" aria-selected="false">Описание</a>
             </li>
-
+            {% endif %}
         </ul>
         <div class="tab-content pt-4 pt-md-5">
+            {% if product.info %}
             <div class="tab-pane fade show active" id="tab-content-1" role="tabpanel" aria-labelledby="home-tab">
                 <div class="col-lg-6 px-0 mx-auto text-center">
                     <div class="d-inline-block text-left">
@@ -128,6 +130,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
             <div class="tab-pane fade" id="tab-content-2" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="col-lg-6 px-0 mx-auto">

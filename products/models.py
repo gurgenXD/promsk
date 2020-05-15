@@ -35,7 +35,7 @@ class Product(SEO):
     title = models.CharField(max_length=250, unique=True, verbose_name='Название товара')
     price = models.CharField(max_length=20, verbose_name='Цена', null=True, blank=True, help_text="Оставьте пустым и на сайте будет «под заказ»")
     desc = models.TextField(verbose_name='Описание')
-    info = models.TextField(verbose_name='Характеристики')
+    info = models.TextField(verbose_name='Характеристики', null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='Показывать на сайте')
     created = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     updated = models.DateField(auto_now=True, verbose_name='Дата изменения')
