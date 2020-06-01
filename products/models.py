@@ -2,7 +2,7 @@ from uuid import uuid1
 from django.db import models
 from django.urls import reverse
 from imagekit.models import ImageSpecField
-from imagekit.processors import *
+from imagekit.processors import ResizeToFit
 import mptt
 from mptt.models import MPTTModel, TreeForeignKey
 from core.models import Position, SEO

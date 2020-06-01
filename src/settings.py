@@ -148,3 +148,10 @@ DIRECTORY = ''
 EMAIL_BACKEND = 'core.email_backend.EmailBackend'
 
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LfiMekUAAAAAO7i9Yd7OWfSdEU6K0TECxPQB1Er'
+
+FILEBROWSER_EXTENSIONS = {
+    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv', '.zip', '.rar', '.tar', '.7z'],
+    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p']
+}
