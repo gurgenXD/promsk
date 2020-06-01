@@ -25,7 +25,7 @@
                         <div class="photo-swipe" itemscope itemtype="http://schema.org/ImageGallery">
                             {% for item in product.images.all %}
                             <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="carousel-item{% if item == product.get_main_image %} active{% endif %}" data-interval="10000">
-                                <a href="{{ item.image.url }}" itemprop="contentUrl" data-size="{{ item.image.width }}x{{ item.image.height }}">
+                                <a href="{{ item.image_xxl.url }}" itemprop="contentUrl" data-size="1522x1522">
                                     <img src="{{ item.image_big.url }}" itemprop="thumbnail" alt="...">
                                 </a>
                             </figure>
