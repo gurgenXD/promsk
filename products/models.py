@@ -2,7 +2,7 @@ from uuid import uuid1
 from django.db import models
 from django.urls import reverse
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import *
 import mptt
 from mptt.models import MPTTModel, TreeForeignKey
 from core.models import Position, SEO
@@ -72,22 +72,22 @@ class Image(models.Model):
     is_main = models.BooleanField(default=False, verbose_name='Главное изображение')
 
     image_medium = ImageSpecField(source='image',
-                               processors=[ResizeToFill(524, 393)],
+                               processors=[ResizeToFit(524, 393)],
                                format='JPEG',
                                options={'quality': 90})
     
     image_small = ImageSpecField(source='image',
-                               processors=[ResizeToFill(62, 62)],
+                               processors=[ResizeToFit(62, 62)],
                                format='JPEG',
                                options={'quality': 90})
 
     image_xxl = ImageSpecField(source='image',
-                               processors=[ResizeToFill(1522, 1522)],
+                               processors=[ResizeToFit(1522, 1522)],
                                format='JPEG',
                                options={'quality': 90})
 
     image_big = ImageSpecField(source='image',
-                               processors=[ResizeToFill(700, 700)],
+                               processors=[ResizeToFit(700, 700)],
                                format='JPEG',
                                options={'quality': 90})
 
