@@ -10,14 +10,15 @@ class CategoryAdmin(DjangoMpttAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('parent', 'title', 'desc'),
+            'fields': ('parent', 'title', 'column', 'desc'),
         }),
         ('SEO', {
             'classes': ('grp-collapse grp-closed',),
             'fields': ('slug', 'seo_title', 'seo_desc', 'seo_kwrds'),
         }),
     )
-
+    list_display = ('title', 'parent', 'column')
+    list_editable = ('column',)
     prepopulated_fields = {'slug': ('title',)}
 
 

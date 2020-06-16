@@ -10,10 +10,9 @@ def context_info(request):
     footer_menu = Page.objects.filter(in_footer=True)
 
     categories = Category.objects.all()
-    nmb = round(len(categories) / 3)
-    categories1 = categories[:nmb + 1]
-    categories2 = categories[nmb + 1:nmb * 2 + 1]
-    categories3 = categories[nmb * 2 + 1:]
+    categories1 = categories.filter(column='first')
+    categories2 = categories.filter(column='second')
+    categories3 = categories.filter(column='third')
 
     feedback_form = FeedBackForm()
     callback_form = CallBackForm()

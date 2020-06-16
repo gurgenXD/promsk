@@ -59,19 +59,31 @@
                             </a>
                             <div class="dropdown-menu w-100 py-4 px-2">
                                 <div class="row">
-                                    <div class="col-lg-4 mb-4">
+                                    <div class="col-lg-4">
                                         {% for item in categories1 %}
-                                        <a class="dropdown-item {% if not item.parent %}h6{% endif %} {% if item.sub_categories %}font-500{% endif %} mb-1 {% if not item.sub_categories and item.parent.parent %}pl-5{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        <a class="dropdown-item mb-1
+                                                 {% if not item.parent and item.sub_categories %} h6 {% endif %} 
+                                                 {% if item.sub_categories %} font-500 {% endif %} 
+                                                 {% if not item.sub_categories and item.parent.parent %} pl-5 {% endif %}
+                                        " href="{{ item.get_absolute_url }}">{{ item.title }}</a>
                                         {% endfor %}
                                     </div>
-                                    <div class="col-lg-4 mb-4">
+                                    <div class="col-lg-4">
                                         {% for item in categories2 %}
-                                        <a class="dropdown-item {% if not item.parent %}h6{% endif %} {% if item.sub_categories %}font-500{% endif %} mb-1 {% if not item.sub_categories and item.parent.parent %}pl-5{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        <a class="dropdown-item mb-1
+                                                 {% if not item.parent and item.sub_categories %} h6 {% endif %} 
+                                                 {% if item.sub_categories %} font-500 {% endif %} 
+                                                 {% if not item.sub_categories and item.parent.parent %} pl-5 {% endif %}
+                                        " href="{{ item.get_absolute_url }}">{{ item.title }}</a>
                                         {% endfor %}
                                     </div>
-                                    <div class="col-lg-4 mb-4">
+                                    <div class="col-lg-4">
                                         {% for item in categories3 %}
-                                        <a class="dropdown-item {% if not item.parent %}h6{% endif %} {% if item.sub_categories %}font-500{% endif %} mb-1 {% if not item.sub_categories and item.parent.parent %}pl-5{% endif %}" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                        <a class="dropdown-item mb-1
+                                                 {% if not item.parent and item.sub_categories %} h6 {% endif %} 
+                                                 {% if item.sub_categories %} font-500 {% endif %} 
+                                                 {% if not item.sub_categories and item.parent.parent %} pl-5 {% endif %}
+                                        " href="{{ item.get_absolute_url }}">{{ item.title }}</a>
                                         {% endfor %}
                                     </div>
                                 </div>

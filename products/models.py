@@ -14,6 +14,14 @@ class Category(MPTTModel, SEO, Position):
     title = models.CharField(max_length=250, unique=True, verbose_name='Название категории')
     desc = models.TextField(verbose_name='Описание', null=True, blank=True,)
 
+    COL_CHOICES = (
+        ('first', 'Столбец 1'),
+        ('second', 'Столбец 2'),
+        ('third', 'Столбец 3'),
+    )
+
+    column = models.CharField(max_length=10, choices=COL_CHOICES, verbose_name='В каком столбце выводить?', default='first')
+
     def get_absolute_url(self):
         return reverse('category', args=[self.slug])
 
