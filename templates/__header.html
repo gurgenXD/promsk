@@ -39,11 +39,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-lg-0 px-3 position-relative">
-        <div class="d-lg-none">
-            <a href="{% url 'index' %}" title="">
-                <img src="{% static 'images/logo-sm.png' %}" title="" height="32px" class="mr-2">
-            </a>
-        </div>
+
+        <a href="{% url 'index' %}" title="" class="logo position-relative d-inline-flex align-items-center">
+            <img src="{% static 'images/logo.png' %}" alt="" height="32">
+            <div class="d-lg-none">
+                <span class="d-block h5 font-weight-bold m-0 text-white">Про МСК</span>
+            </div>
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon"><i class="fas fa-bars"></i><i class="fas fa-times"></i></span>
         </button>

@@ -391,8 +391,26 @@ article {
 
 .navbar {
     z-index: 9;
+
     &.fixed-top {
         background-color: $dark !important;
+
+        .logo {
+            margin-left: 1rem;
+
+            img {
+                width: 32px;
+                margin-right: .75rem;
+            }
+        }
+    }
+
+    .logo {
+        overflow: hidden;
+
+        img {
+            width: 0;
+        }
     }
 }
 
@@ -706,6 +724,17 @@ article {
     .catalogue-header {
         padding-top: 110px;
         margin-top: -110px;
+    }
+
+    .navbar {
+        .logo {
+            margin-left: 0 !important;
+
+            img {
+                width: 32px;
+                margin-right: .75rem;
+            }
+        }
     }
 }
 
